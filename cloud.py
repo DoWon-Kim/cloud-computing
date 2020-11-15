@@ -63,8 +63,15 @@ def start_instance():   #인스턴스 실행 기능 함수
 
 def available_regions():
     print("준비중입니다.")
-def stop_instance():
-    print("준비중입니다.")
+def stop_instance():    #인스턴스 중지 기능 함수
+    instance_id=input("instance id:")
+    ec2 = boto3.client('ec2')
+    for each in ec2.describe_instances()['Reservations']:
+        for ins in each['Instances']:
+            if instance_id == ins['InstanceId']:
+                ec2.stop_instances(InstanceIds=[ins['InstanceId']])
+                print(ins['InstanceId'],"중지")
+
 def creat_instance():
     print("준비중입니다.")
 def reboot_instance():
