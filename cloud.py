@@ -50,8 +50,13 @@ def list_instance():    #인스턴스 목록 기능 함수
         for ins in each['Instances']:
             print("인스턴스ID:",ins['InstanceId'],"상태:",ins['State']['Name'],"인스턴스 타입:",ins['InstanceType'],"모니터링:",ins['Monitoring']['State'])
 
-def available_zones():
-    print("준비중입니다.")
+def available_zones():  #이용가능한 존 목록 기능 함수
+    count=1
+    ec2 = boto3.client('ec2')
+    for each in ec2.describe_availability_zones()['AvailabilityZones']:
+        print(count, each['State'], each['RegionName'], each['ZoneName'], each['ZoneId'])
+        count+=1
+        
 def start_instance():   #인스턴스 실행 기능 함수
     instance_id=input("instance id:")
     ec2 = boto3.client('ec2')
@@ -61,8 +66,14 @@ def start_instance():   #인스턴스 실행 기능 함수
                 ec2.start_instances(InstanceIds=[ins['InstanceId']])
                 print(ins['InstanceId'],"실행")
 
-def available_regions():
-    print("준비중입니다.")
+def available_regions():    #이용기능한 지역 목록 기능 함수
+    ec2 = boto3.client('ec2')
+    count= 1
+    for each in ec2.describe_regions()['Regions']:
+        if "opt-in-not-required"== each['OptInStatus']:
+            print(count,each['RegionName'],each['OptInStatus'])
+            count+=1
+
 def stop_instance():    #인스턴스 중지 기능 함수
     instance_id=input("instance id:")
     ec2 = boto3.client('ec2')
@@ -88,6 +99,7 @@ def reboot_instance(): #인스턴스 재시작 기능 함수
             if instance_id == ins['InstanceId']:
                 ec2.reboot_instances(InstanceIds=[ins['InstanceId']])
                 print(ins['InstanceId'],"재시작")
+
 def list_images(): #인스턴스 이미지 목록 기능 함수
     ec2 = boto3.resource('ec2')
     client= boto3.client('ec2')
@@ -99,5 +111,5 @@ def list_images(): #인스턴스 이미지 목록 기능 함수
             name=''
         print("이름:",ami['Name'],"이미지ID:",ami['ImageId'],"상태:",ami['State'])
 
-if __name__=='__main__':
+if __name__=='__main__':    #메인
     menu()
