@@ -1,6 +1,5 @@
 import boto3
 import sys
-import pprint
 
 def menu():             #amazon ec2 관리 메뉴 함수
     while True:
@@ -113,7 +112,9 @@ def list_images(): #인스턴스 이미지 목록 기능 함수
         print("이름:",ami['Name'],"이미지ID:",ami['ImageId'],"상태:",ami['State'])
 
 def security_group(): #보안 그룹 목록 기능 함수
-    print()
+    ec2 = boto3.client('ec2')
+    for group in ec2.describe_security_groups()['SecurityGroups']:
+        print(group['GroupName'])
 
 if __name__=='__main__':    #메인
     menu()
