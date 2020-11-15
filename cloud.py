@@ -54,7 +54,7 @@ def available_zones():  #이용가능한 존 목록 기능 함수
     count=1
     ec2 = boto3.client('ec2')
     for each in ec2.describe_availability_zones()['AvailabilityZones']:
-        print(count, each['State'], each['RegionName'], each['ZoneName'], each['ZoneId'])
+        print(count,'존 이름:',each['ZoneName'],'존ID:' ,each['ZoneId'],'존상태:',each['State'],'지역:',each['RegionName'])
         count+=1
 
 def start_instance():   #인스턴스 실행 기능 함수
@@ -71,7 +71,7 @@ def available_regions():    #이용기능한 지역 목록 기능 함수
     count= 1
     for each in ec2.describe_regions()['Regions']:
         if "opt-in-not-required"== each['OptInStatus']:
-            print(count,each['RegionName'],each['OptInStatus'])
+            print(count,'지역이름:',each['RegionName'],'상태:',each['OptInStatus'])
             count+=1
 
 def stop_instance():    #인스턴스 중지 기능 함수
@@ -84,7 +84,6 @@ def stop_instance():    #인스턴스 중지 기능 함수
                 print(ins['InstanceId'],"중지")
 
 def creat_instance(): #인스턴스 생성 기능 함수
-    def creat_instance():
         ami_id = input("ami id:")
         ec2 = boto3.client('ec2')
         print(ami_id)
