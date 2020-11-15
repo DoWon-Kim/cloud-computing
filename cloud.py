@@ -44,8 +44,12 @@ def menu():             #amazon ec2 관리 메뉴 함수
         else:
             print("다시 입력하세요.")
 
-def list_instance():
-    print("준비중입니다.")
+def list_instance():    #인스턴스 목록 기능 함수
+    ec2 = boto3.client('ec2')
+    for each in ec2.describe_instances()['Reservations']:
+        for ins in each['Instances']:
+            print("인스턴스ID:",ins['InstanceId'],"상태:",ins['State']['Name'],"인스턴스 타입:",ins['InstanceType'],"모니터링:",ins['Monitoring']['State'])
+
 def available_zones():
     print("준비중입니다.")
 def start_instance():
