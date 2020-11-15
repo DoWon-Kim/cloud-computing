@@ -9,7 +9,7 @@ def menu():             #amazon ec2 관리 메뉴 함수
         print("3. start instance          4. available regions")
         print("5. stop instance           6. create instance")
         print("7. reboot instance         8. list images")
-        print("9.                         99. quit")
+        print("9. security group          99. quit")
         print("-------------------------------------------------")
         number = input("번호를 입력하세요:")
         if number == "1":       #1.인스터스 목록
@@ -33,11 +33,12 @@ def menu():             #amazon ec2 관리 메뉴 함수
         elif number == "7":     #7.인스턴스 재실행
             print("reboot instnace..")
             reboot_instance()
-        elif number == "8":     #9.이미지 목록
+        elif number == "8":     #8.이미지 목록
             print("list images..")
             list_images()
-        elif number == "9":
-            print("준비중입니다.")
+        elif number == "9":     #9.보안 그룹 목록
+            print("sesecurity group..")
+            security_group()
         elif number == "99":    #99.종료
             print("종료합니다.")
             sys.exit()
@@ -56,7 +57,7 @@ def available_zones():  #이용가능한 존 목록 기능 함수
     for each in ec2.describe_availability_zones()['AvailabilityZones']:
         print(count, each['State'], each['RegionName'], each['ZoneName'], each['ZoneId'])
         count+=1
-        
+
 def start_instance():   #인스턴스 실행 기능 함수
     instance_id=input("instance id:")
     ec2 = boto3.client('ec2')
@@ -110,6 +111,9 @@ def list_images(): #인스턴스 이미지 목록 기능 함수
         else:
             name=''
         print("이름:",ami['Name'],"이미지ID:",ami['ImageId'],"상태:",ami['State'])
+
+def security_group(): #보안 그룹 목록 기능 함수
+    print()
 
 if __name__=='__main__':    #메인
     menu()
