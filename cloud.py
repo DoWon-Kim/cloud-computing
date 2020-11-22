@@ -1,5 +1,7 @@
 import boto3
 import sys
+#소프트웨어학과 김도원
+#아마존 ec2 관리
 
 def menu():             #amazon ec2 관리 메뉴 함수
     while True:
@@ -113,7 +115,7 @@ def list_images(): #인스턴스 이미지 목록 기능 함수
 def security_group(): #보안 그룹 목록 기능 함수
     ec2 = boto3.client('ec2')
     for group in ec2.describe_security_groups()['SecurityGroups']:
-        print(group['GroupName'])
+        print('보안그룹:',group['GroupName'])
 
 if __name__=='__main__':    #메인
     menu()
